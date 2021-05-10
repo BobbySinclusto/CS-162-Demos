@@ -23,11 +23,16 @@ int main() {
 		   break;
 		}
 		cout << "invalid input, must be 0 or 1" << endl;
-	}
+	}	
 	catch (invalid_argument e) {
+	   cout << e.what() << endl;
 	   cout << "invalid input, must be an integer" << endl;
 	}
+	catch (...) {
+	   cout << "unknown error" << endl;
+	}
     }
+    cout << "success" << endl;
 
 /*
     cout << "Enter the size of the array to generate: ";
@@ -61,7 +66,8 @@ bool is_int(string num) {
 
 int get_int(string prompt) {
    if (!is_int(prompt))
-      throw invalid_argument("expected an integer");
+      throw invalid_argument("Error: prompt must be an integer");
+
    bool is_negative = false;
    is_negative = prompt.at(0)=='-'? true : false;
    int result = 0;
