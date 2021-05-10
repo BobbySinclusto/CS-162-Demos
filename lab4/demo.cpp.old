@@ -1,0 +1,95 @@
+#include <iostream>
+
+using namespace std;
+
+class Point {
+   private:
+      int num_coords;
+      int *coords;
+
+   public:
+      Point();
+      Point(int, int);
+      Point(int, int, int);
+
+      Point(const Point&);
+      ~Point();
+      const Point& operator=(const Point&);
+
+      void print();
+};
+
+Point::Point() {
+   num_coords = 0;
+   coords = NULL;
+}
+
+Point::Point(int x, int y) {
+   num_coords = 2;
+   coords = new int[2];
+   coords[0] = x;
+   coords[1] = y;
+}
+
+Point::Point(int x, int y, int z) {
+   num_coords = 3;
+   coords = new int[3];
+   coords[0] = x;
+   coords[1] = y;
+   coords[2] = z;
+}
+
+Point::Point(const Point &old) {
+   num_coords = old.num_coords;
+   coords = new int[num_coords];
+   for (int i = 0; i < num_coords; ++i) {
+      coords[i] = old.coords[i];
+   }
+}
+
+Point::~Point() {
+   delete [] coords;
+}
+
+const Point& Point::operator=(const Point &old) {
+   if (this == &old) {
+      return *this;
+   }
+   delete [] coords;
+   num_coords = old.num_coords;
+   coords = new int[num_coords];
+   for (int i = 0; i < num_coords; ++i) {
+      coords[i] = old.coords[i];
+   }
+   return *this;
+}
+
+void Point::print() {
+   for (int i = 0; i < num_coords; ++i) {
+      cout << coords[i] << " ";
+   }
+   cout << endl;
+}
+
+int main() {
+   Point p1(2, 3);
+   cout << "p1:" << endl;
+   p1.print();
+   cout << endl;
+
+   Point p2(p1);
+   cout << "p2:" << endl;
+   p2.print();
+   cout << endl;
+
+   Point p3(3, 5, 6);
+   cout << "p3:" << endl;
+   p3.print();
+   cout << endl;
+
+   p3 = p2;
+   cout << "result of p3 = p2:" << endl;
+   p3.print();
+
+   return 0;
+}
